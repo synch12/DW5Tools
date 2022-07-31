@@ -2,7 +2,7 @@
 ###  Extracts lzp2 files contents as '.dat' files specific tools are needed to access the .dat
 ###
 ###
-import Unpacker.py
+import Unpacker
 import tempfile
 
 import sys
@@ -33,8 +33,9 @@ def decompress_lzp2(in_stream: BinaryIO, out_path):
         iterator +=1
 
     if(not Raw):
-        temp = tempfile.tempfile.TemporaryFile()
+        temp = tempfile.TemporaryFile('w+b')
         temp.write(buffer)
+        temp.seek(0)
         Unpacker.unpack(temp,out_path)
     else:
         out_stream = open(out_path + str(file_count) + '.dat', 'wb')
