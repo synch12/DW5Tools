@@ -34,8 +34,10 @@ def getExtension(buffer):
         "MESC": ".strings"
 
     }
-    return extensions.get(buffer[0:4].decode("utf-8"),'.dat')
-
+    try:
+        return extensions.get(buffer[0:4].decode("utf-8"),'.dat')
+    except:
+        return '.dat'
 
 
 

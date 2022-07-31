@@ -61,8 +61,9 @@ def handlereference(iterator,length,buffer,bytesIn):
         Offset += temp<<8
         Offset += 1
         if Offset == 1:
+            byte = buffer[-1]
             for i in range(flag):
-                buffer += (0).to_bytes(1, byteorder='little')
+                buffer += byte.to_bytes(1, byteorder='little')
         else:
             for i in range(flag):
                 buffer += buffer[-Offset:-Offset+1]
