@@ -3,7 +3,6 @@
 ###
 ###
 import Unpacker
-import UnpackerPC
 import tempfile
 
 import sys
