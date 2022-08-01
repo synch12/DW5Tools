@@ -3,6 +3,7 @@
 ###
 ###
 import Unpacker
+import UnpackerPC
 import tempfile
 
 import sys
@@ -75,7 +76,7 @@ def handlereference(iterator,length,buffer,bytesIn):
 
 def RLEread(iterator,length,buffer,bytesIn):
     iterator += 1
-    temp = bytesIn[iterator-1]&0x0f
+    temp = bytesIn[iterator-1]&0x3f
     amount = bytesIn[iterator] + 3 +(temp <<8)
     iterator += 1
     value = bytesIn[iterator]
