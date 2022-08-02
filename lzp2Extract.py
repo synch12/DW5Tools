@@ -38,7 +38,7 @@ def decompress_lzp2(in_stream: BinaryIO, out_path):
         temp.seek(0)
         Unpacker.unpack(temp,out_path)
     else:
-        out_stream = open(out_path + str(file_count) + '.dat', 'wb')
+        out_stream = open(out_path + str(file_count) + '.lpf', 'wb')
         out_stream.write(buffer)
         out_stream.close()
 
