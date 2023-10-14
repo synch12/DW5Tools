@@ -7,4 +7,4 @@
  ```
  python lzp2Extract.py /inputfile /outputDirectory/
  ```
-This works with the English, Japanese, and Chinese versions of the game files.
+This works with the English, Japanese, and Chinese versions of the game files, PC and PS2 versions.
