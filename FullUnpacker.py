@@ -17,37 +17,44 @@ def unpack(in_stream: BinaryIO, out_path):
     in_stream.seek(0, 2)
     filesize = in_stream.tell()
     in_stream.seek(0)
-    out_path = out_path+ '\\'
+    out_path = out_path[:-4]+ '\\'
     print("unpacking")
     os.mkdir(out_path)
     bytesIn = in_stream.read()
     iterator = 0
-    fileCount = int.from_bytes(bytesIn[0:4],byteorder='little')
-    lengths =  dict()
-    for i in range(fileCount):
-        lengths[i] = int.from_bytes(bytesIn[((i+1)<<2):(((i+1)<<2) +4)],byteorder='little') << 4
-    print(lengths)
-    readOffset = (fileCount+1) * 4
-    readOffset = readOffset + ((0x10 -(readOffset % 0x10))&0xf)
-    iterator = math.ceil(readOffset)
-    index = 0
     filecount = 0
-    
-    print(hex(iterator))
-    print("Offset " + str(readOffset) +'\nFile Size' + str( filesize))
+    readOffset = 0
+    folderCount = 0
     while(readOffset <= filesize):
+
+        #readOffset = 0xC400 * math.ceil(readOffset/0xC400)
+        readOffset = 0x4000 * math.ceil(readOffset/0x4000)
+        print(hex(readOffset))
+        fileCount = int.from_bytes(bytesIn[readOffset:readOffset+4],byteorder='little')
+        lengths =  dict()
+        os.mkdir(out_path+'\\' +str(folderCount))
         for i in range(fileCount):
-            print(lengths)
+            lengths[i] = int.from_bytes(bytesIn[readOffset + ((i+1)<<2):readOffset +(((i+1)<<2) +4)],byteorder='little') << 4
+        readOffset += (fileCount+1) * 4
+        readOffset = readOffset + ((0x10 -(readOffset % 0x10))&0xf)
+        iterator = math.ceil(readOffset)
+        index = 0
+        
+        for i in range(fileCount):
+            #print(lengths)
             buffer = bytearray()
             for j in range(lengths[i]):
                 buffer += bytesIn[readOffset + j].to_bytes(1, byteorder='little')
                 index+=1
-            print(buffer)
-            out_stream = open(out_path +'\\'+ str(filecount)+'_ORIGINAL' + getExtension(buffer), 'wb')
+            out_stream = open(out_path +'\\'+str(folderCount)+'\\'+ str(i)+ '_ORIGINAL' + getExtension(buffer), 'wb')
             out_stream.write(buffer)
             out_stream.close()
-            filecount += 1
             readOffset+=lengths[i]
+        folderCount +=1
+        #else:
+        #    readOffset +=1
+        #    readOffset = readOffset + ((0x400 -((readOffset-0x400) % 0x10))&0xf)
+        #    iterator = math.ceil(readOffset)
 
         
 

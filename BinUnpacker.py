@@ -7,7 +7,7 @@ License: GPL-3.0 License
 
 
 # Program tested on Python 3.7.0
-# It should be used with Dynasty Warriors 8
+# This a is a rework of Duda's DW8 unpacker for DW5
 
 # Ver    Date        Author               Comment
 # v0.1   28.03.2021  Bartlomiej Duda      -
@@ -75,8 +75,27 @@ def export_data(bin_in_file_path, idx_in_file_path, out_folder_path):
                 ext = ".g1t"
             elif ID&0xffffffff == 0x324D4954:
                 ext = ".tm2"
+            elif ID&0xffffffff == 0x20336D74:
+                ext = ".tm3"
             elif ID&0xffffffff == 0x32505A4C:
                 ext = ".lzp"
+            elif ID&0xffffffff == 0x47314d5f:
+                ext = ".g1m_"
+            elif ID&0xffffffff == 0x304b5042:
+                ext = ".bpk"
+            elif ID&0xffffffff == 0x4b5c484c:
+                ext = ".lhsk"
+            elif ID&0xffffffff == 0x4731415F:
+                ext = ".g1a_"
+            elif ID&0xffffffff == 0x6F6C675B:
+                ext = ".lght"
+            elif ID&0xffffffff == 0xC134CCCD:
+                ext = ".weird"
+            elif ID&0xffffffff == 0x4353454D:
+                ext = ".strng"
+            elif ID&0xffffffff == 0x20325350:
+                ext = ".ps2"
+
             currentstart = section_start
             f_path = out_folder_path +str(f_count - 1).ljust(9)+hex(section_start) + ext 
             out_file = open(f_path, 'wb')
@@ -112,9 +131,9 @@ def main():
     
 
     if main_switch == 1:
-        p_bin_in_file_path = "E:\\Emulation\\Emulators\\iso\\dw5\\LINKDATA.BIN"  
-        p_idx_in_file_path = "E:\\Emulation\\Emulators\\iso\\dw5\\LINKDATA.IDX"
-        p_out_folder_path =  "E:\\Emulation\\Emulators\\iso\\dw5\\read\\"
+        p_bin_in_file_path = "E:\\Modding\\SSM4SPJa\\linkdata\\LINKDATA.BIN"
+        p_idx_in_file_path = "E:\\Modding\\SSM4SPJa\\linkdata\\LINKDATA.IDX"
+        p_out_folder_path =  "E:\\Modding\\SSM4SPJa\\STUFF\\LINKDATA0.BIN_OUT\\"
         export_data(p_bin_in_file_path, p_idx_in_file_path, p_out_folder_path)
         
     else:
@@ -127,6 +146,24 @@ def main():
     
     
 main()
+
+
+
+# "E:\\Modding\\SSM4SPJa\\linkdata\\LINKDATA.BIN"
+# "E:\\Modding\\SSM4SPJa\\linkdata\\LINKDATA.IDX"
+# "E:\\Modding\\SSM4SPJa\\STUFF\\LINKDATA0.BIN_OUT\\"
+
+
+# "E:\\Emulation\\Emulators\\iso\\dw5XL\\LINKDATA.BI
+# "E:\\Emulation\\Emulators\\iso\\dw5XL\\LINKDATA.ID
+# "E:\\Emulation\\Emulators\\iso\\dw5XL\\owow\\"
+
+
+
+
+# "C:\\Users\\Malachi\\WorkDesktop\\Shin Sangokumusou 4 Special\\linkdata\\LINKDATA.BIN"
+# "C:\\Users\\Malachi\\WorkDesktop\\Shin Sangokumusou 4 Special\\linkdata\\LINKDATA.IDX"
+# "C:\\Users\\Malachi\\WorkDesktop\\Shin Sangokumusou 4 Special\\linkdata\\stoof\\"
 
 # "E:\\Emulation\\Emulators\\iso\\dw5XL\\LINKDATA.BIN"
 # "E:\\Emulation\\Emulators\\iso\\dw5XL\\LINKDATA.IDX"

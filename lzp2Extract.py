@@ -1,5 +1,6 @@
 ###
-###  Extracts lzp2 files contents as '.dat' files specific tools are needed to access the .dat
+###  Extracts lzp2 files contents as '.lpf' files. 
+###  If Raw is false it will then unpack all files contained within it.
 ###
 ###
 import Unpacker
@@ -13,7 +14,7 @@ def decompress_lzp2(in_stream: BinaryIO, out_path):
     gap = 0
     searchvalue = 0x218F
     file_count = 0
-    Raw = False
+    Raw = True
     bytesIn = in_stream.read()
     datasize = len(bytesIn)
     iterator = 0x10
@@ -22,6 +23,7 @@ def decompress_lzp2(in_stream: BinaryIO, out_path):
     buffer = bytearray()
     #buffer += 0x00.to_bytes(1, byteorder='little')
     while(length+0x10>iterator):
+
         if gap == 0:
             flag  = bytesIn[iterator] &0XC0
             gap = bytesIn[iterator] if not flag else 0
@@ -31,12 +33,13 @@ def decompress_lzp2(in_stream: BinaryIO, out_path):
             iterator += 1
         gap, iterator = handlereference(iterator,length,buffer,bytesIn)
         iterator +=1
+        
 
     if(not Raw):
         temp = tempfile.TemporaryFile('w+b')
         temp.write(buffer)
         temp.seek(0)
-        Unpacker.unpack(temp,out_path)
+        Unpacker.unpack(temp,in_stream.name.split('.')[0]+" LZP" )
     else:
         out_stream = open(out_path + str(file_count) + '.lpf', 'wb')
         out_stream.write(buffer)
